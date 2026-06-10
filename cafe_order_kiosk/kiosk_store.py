@@ -34,7 +34,20 @@ class KioskStore:
         if only_available:
             items = [item for item in items if item.is_available]
         return sorted(items, key=lambda item: item.id)
-
+    def list_menu_by_category(self, category: str) -> list[MenuItem]:
+        return [
+        item
+        for item in self.list_menu()
+        if item.category.lower() == category.lower()
+    ]
+    def list_categories(self) -> list[str]:
+        return sorted({item.category for item in self._menu.values()})
+        
+    def category_exists(self, category: str) -> bool:
+    return category.lower() in {
+        item.category.lower()
+        for item in self._menu.values()
+    }
     def get_menu_item(self, menu_item_id: int) -> MenuItem | None:
         return self._menu.get(menu_item_id)
 
